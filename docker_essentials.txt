@@ -1,0 +1,44 @@
+Requirements
+------------
+You should make a Dockerfile which should be in your base directory of the project
+
+#Command to build using dockerfile (if filename is Dockerfile)
+sudo docker build . -t text:v1
+
+#Command to build using dockerfile (if filename is Dockerfile_gpu or anything else)
+sudo docker build -f Dockerfile_gpu . -t text:v1
+
+# Docker run to make the api up (8000 is docker container port, 5000 is internal api exposed port in Dockerfile)
+sudo docker run -it -p 8080:5000 text:v1
+
+
+## Check docker size
+docker system df
+
+
+##Specify cpus
+sudo docker run --cpuset-cpus=1,2 -p 8000:5001 hand:v1
+
+##Helpful link
+https://linuxhint.com/docker_basic_command_line_tips/
+
+
+
+##DOcker nvidia build
+sudo nvidia-docker build -f Dockerfile_gpu_mini . -t headgaze_gpu:v1
+
+
+## Run docker image with nvidia docker
+sudo nvidia-docker run --runtime=nvidia -it --device /dev/nvidia0:/dev/nvidia0 --device /dev/nvidiactl:/dev/nvidiactl --device /dev/nvidia-uvm:/dev/nvidia-uvm -p 80:5602 headgaze_gpu:v1
+
+
+## Run docker image with nvidia docker with /bin/bash to inspect
+sudo nvidia-docker run --runtime=nvidia -it --device /dev/nvidia0:/dev/nvidia0 --device /dev/nvidiactl:/dev/nvidiactl --device /dev/nvidia-uvm:/dev/nvidia-uvm -p 80:5602 headgaze_gpu:v1 /bin/bash
+
+## Mount directory/folder with docker container
+sudo nvidia-docker run --runtime=nvidia -it --device /dev/nvidia0:/dev/nvidia0 --device /dev/nvidiactl:/dev/nvidiactl --device /dev/nvidia-uvm:/dev/nvidia-uvm -v /home/himanshu/:/home/himanshu/ -p 80:5602 eyegaze_gpu:v1
+
+
+## delete all
+docker system prune -a
+
